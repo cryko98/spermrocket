@@ -75,15 +75,75 @@
             text-shadow: none; 
         }
         
-        /* Új CSS a banner képhez (biztosítja, hogy az egész kép látható legyen) */
-        .banner-image {
-            object-fit: contain; /* Ez biztosítja, hogy a teljes kép látható legyen */
-            width: 100%;
-            height: 100%;
+        /* --- ANIMATION STYLES: 4 ROCKETS --- */
+
+        /* Rocket Animation Keyframes: Diagonal movement from bottom-left to top-right */
+        @keyframes rocket-flight {
+            0% { 
+                transform: translate(0, 0) scale(0.5) rotate(45deg); 
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% { 
+                /* Moves diagonally 150vw wide and 150vh high to cover screen sizes */
+                transform: translate(150vw, -150vh) scale(0.8) rotate(45deg); 
+                opacity: 0.1;
+            }
         }
+
+        .animated-rocket {
+            position: fixed;
+            bottom: -10vh; /* Start just below the screen */
+            left: -10vw; /* Start just left of the screen */
+            font-size: 5rem;
+            z-index: 10; /* Below header, above background */
+            pointer-events: none; /* Make sure they don't block clicks */
+            animation-name: rocket-flight;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        /* Rocket 1: Fast, short loop */
+        #rocket-1 {
+            animation-duration: 15s;
+            animation-delay: 0s;
+        }
+
+        /* Rocket 2: Medium speed, different size */
+        #rocket-2 {
+            animation-duration: 25s;
+            animation-delay: 5s;
+            font-size: 3rem;
+        }
+
+        /* Rocket 3: Slow, offset start */
+        #rocket-3 {
+            animation-duration: 40s;
+            animation-delay: 10s;
+            font-size: 6rem;
+        }
+        
+        /* Rocket 4: Medium speed, slightly different path/delay */
+        #rocket-4 {
+            animation-duration: 30s;
+            animation-delay: 2s;
+            font-size: 4rem;
+            /* Small offset from start point for visual variation */
+            bottom: -5vh; 
+            left: -5vw;
+        }
+        /* --- END ANIMATION STYLES --- */
     </style>
 </head>
 <body class="min-h-screen selection:bg-white selection:text-black">
+
+    <!-- Animált Rakéták a Háttérben -->
+    <div id="rocket-1" class="animated-rocket">🚀</div>
+    <div id="rocket-2" class="animated-rocket">🚀</div>
+    <div id="rocket-3" class="animated-rocket">🚀</div>
+    <div id="rocket-4" class="animated-rocket">🚀</div>
 
     <!-- Header / Navigation Bar (Dark against space image) -->
     <header class="sticky top-0 z-50 shadow-xl py-4 border-b-4 glow-border">
@@ -129,13 +189,16 @@
         </div>
     </header>
 
-    <!-- New Banner Image -->
-    <div class="w-full">
-        <img src="https://pbs.twimg.com/media/G3fX58nWoAAofK_?format=jpg&name=small" 
-             alt="Elon Musk Tweet Emoji Banner" 
-             class="w-full object-cover h-32 md:h-64 border-b-4 border-white glow-border banner-image" 
-             onerror="this.onerror=null; this.src='https://placehold.co/1200x200/000000/ffffff?text=ELON+MUSK+MEME+BANNER'"
-        >
+    <!-- New Banner Image (Centered, width matches content, full image visible) -->
+    <div class="max-w-5xl mx-auto px-4 mt-8">
+        <div class="relative w-full border-b-4 border-white glow-border" style="padding-top: 33.33%;"> 
+             <!-- 3:1 Aspect Ratio (approx 1200x400 based on image size) -->
+            <img src="https://pbs.twimg.com/media/G3fX58nWoAAofK_?format=jpg&name=small" 
+                 alt="Elon Musk Tweet Emoji Banner" 
+                 class="absolute top-0 left-0 w-full h-full object-contain" 
+                 onerror="this.onerror=null; this.src='https://placehold.co/1200x400/000000/ffffff?text=ELON+MUSK+MEME+BANNER'"
+            >
+        </div>
     </div>
 
     <main>
