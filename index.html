@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sperm Rocket - BNB's Cosmic Journey</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import */
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;700;900&display=swap');
+        
+        .font-bungee {
+            font-family: 'Bungee', cursive;
+        }
+
+        /* Futurisztikus Ragyogás effektus */
+        .glow-border {
+            border-color: #ffffff !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), /* Belső halvány ragyogás */
+                        0 0 20px rgba(255, 255, 255, 0.6);  /* Külső erősebb ragyogás */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .glow-border:hover {
+            box-shadow: 0 0 15px #fff, 0 0 30px #fff, 0 0 45px #fff;
+        }
+
+        /* Fő háttér, fekete és kép */
+        body {
+            background-color: #000000; /* Mély fekete */
+            color: #ffffff; /* Alapértelmezett világos szöveg szín */
+            background-image: url('https://cdn.mos.cms.futurecdn.net/ZxMaZq2VfVKj7Lbo5y7dLR.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        /* Fejléc és Tartalmi blokkok (áttetsző sötét) az olvashatóságért */
+        .content-panel {
+            background-color: rgba(0, 0, 0, 0.8); /* Féláttetsző fekete réteg a háttérkép felett */
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        /* Navigációs Bar */
+        header {
+            background-color: rgba(0, 0, 0, 0.95); /* Majdnem fekete a navigációs sávhoz */
+            border-bottom-color: #ffffff;
+        }
+
+        /* Színek visszaállítása fekete/fehérre és kiemelések */
+        .text-accent {
+            color: #ffffff;
+        }
+        .bg-accent {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* CA Box styles */
+        .ca-box {
+            cursor: pointer;
+            transition: all 0.1s ease;
+            color: #000000; /* Sötét szöveg a fehér dobozon */
+        }
+        .ca-box:active {
+            transform: translateY(2px);
+            /* Fehér árnyék az aktivált állapoton */
+            box-shadow: 0 4px 0px #ffffff;
+        }
+        
+        /* Eltávolítjuk a régi cartoon-shadow-t a tiszta futurisztikus megjelenés érdekében */
+        .cartoon-shadow {
+            text-shadow: none; 
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-white selection:text-black">
+
+    <!-- Header / Navigation Bar (Dark against space image) -->
+    <header class="sticky top-0 z-50 shadow-xl py-4 border-b-4 glow-border">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 space-y-3 md:space-y-0">
+            
+            <!-- Logo & Emojis -->
+            <div class="flex items-center space-x-2">
+                <h1 id="logo-title-full" class="text-3xl font-bungee text-accent tracking-tighter">
+                    💦🚀->🌙 <span id="logo-title" data-i18n-key="logo-title">SPERM ROCKET</span>
+                </h1>
+            </div>
+
+            <!-- Contract Address (CA) Box - Prominent in Header, now shorter -->
+            <div id="ca-container-header" 
+                 class="ca-box p-1 bg-accent border-2 border-white rounded-xl inline-block shadow-lg glow-border flex items-center justify-center active:shadow-none"
+                 onclick="copyCA()">
+                <p class="text-xs sm:text-sm font-bold font-mono text-black">
+                    CA: <span id="contract-address" class="select-all underline decoration-dashed">0xXXXXXXXXXXXXXXXXXXXXXXX</span>
+                </p>
+                <!-- Copy message span removed as requested -->
+            </div>
+            
+            <!-- Navigation Links & Language Switcher (Right side) -->
+            <div class="flex items-center space-x-4">
+                <!-- Nav Links - Removed Tokenomics -->
+                <nav class="hidden lg:flex space-x-6 font-bold text-base">
+                    <a href="#home" data-i18n-key="nav-home" class="text-gray-300 hover:text-white transition duration-150">Home</a>
+                    <a href="#howtobuy" data-i18n-key="nav-howtobuy" class="text-gray-300 hover:text-white transition duration-150">How to Buy</a>
+                    <a href="#community" data-i18n-key="nav-community" class="text-gray-300 hover:text-white transition duration-150">Community</a>
+                </nav>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-3">
+                    <span id="current-lang-display" class="font-bold text-sm text-white">EN</span>
+                    <button id="lang-switch-button" 
+                            class="bg-accent text-black font-bold py-1 px-3 rounded-full text-sm shadow-md transition duration-150 border-2 border-white glow-border"
+                            onclick="toggleLanguage()">
+                        <span data-i18n-key="switch-to-text">Switch to</span>
+                        <span id="next-lang-text">中文</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- New Banner Image -->
+    <div class="w-full">
+        <img src="https://pbs.twimg.com/media/G3fX58nWoAAofK_?format=jpg&name=small" 
+             alt="Elon Musk Tweet Emoji Banner" 
+             class="w-full object-cover h-32 md:h-64 border-b-4 border-white glow-border" 
+             onerror="this.onerror=null; this.src='https://placehold.co/1200x200/000000/ffffff?text=ELON+MUSK+MEME+BANNER'"
+        >
+    </div>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section id="home" class="py-16 md:py-32 text-center max-w-5xl mx-auto px-4 content-panel my-8 rounded-xl border-4 glow-border">
+            <h2 id="hero-title" data-i18n-key="hero-title" class="text-6xl sm:text-7xl lg:text-8xl font-bungee text-accent leading-none">
+                ELON TWEETED. WE LISTENED.
+            </h2>
+            <p id="hero-tagline" data-i18n-key="hero-tagline" class="mt-4 text-xl sm:text-2xl max-w-3xl mx-auto font-inter font-bold text-gray-300">
+                Elon Musk posted the 💦🚀->🌙 emoji sequence, and the world is finally ready for the ultimate BNB memecoin. This is not a coincidence; it's destiny tokenized. Get in, Cadet.
+            </p>
+            
+            <div class="mt-12 space-x-4">
+                <!-- Buy Button (Black text on White, glowing) -->
+                <a href="#" data-i18n-key="buy-button" class="bg-accent text-black font-bungee py-3 px-8 rounded-xl text-xl shadow-xl transition duration-200 border-4 border-white glow-border hover:text-gray-900">
+                    BUY $SPRM
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. About/Lore Section -->
+        <section class="content-panel py-16 md:py-20 border-t-4 border-b-4 border-white glow-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 data-i18n-key="lore-title" class="text-4xl sm:text-5xl font-bungee text-accent text-center mb-10">
+                    THE LORE: ELON'S PROPHECY
+                </h3>
+                <div class="md:flex md:space-x-8 items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <p data-i18n-key="lore-p1" class="text-lg leading-relaxed mb-4 text-gray-400">
+                            The ancient prophecy, now confirmed by Elon Musk's divine tweet (💦🚀->🌙), declared that the fastest asset would lead humanity to the cosmic egg. Other tokens are slow. Sperm Rocket is pure speed. We've brought the movement to the BNB chain, fully decentralized and ready for lift-off. Our mission: The Moon, together.
+                        </p>
+                        <p data-i18n-key="lore-p2" class="text-lg leading-relaxed font-bold text-white">
+                            It's not just a token, it's a lifecycle event. Get in before we hatch. 🥚
+                        </p>
+                        <ul class="list-disc list-inside mt-4 text-gray-400">
+                            <li data-i18n-key="lore-li1">Fully Decentralized and Community Driven</li>
+                            <li data-i18n-key="lore-li2">Zero Tax (0/0) for Maximum Velocity</li>
+                            <li data-i18n-key="lore-li3">Liquidity Locked Forever (It's serious business)</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                         <!-- Placeholder for a cartoon image/SVG -->
+                        <div class="text-9xl transform rotate-12 text-white">
+                            💦<span class="text-gray-400">🔥</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. How to Buy Section -->
+        <section id="howtobuy" class="content-panel py-16 md:py-20 border-t-4 border-white glow-border">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 data-i18n-key="htb-title" class="text-4xl sm:text-5xl font-bungee text-accent text-center mb-10">
+                    HOW TO ACHIEVE LIFT-OFF
+                </h3>
+                <ol class="space-y-6">
+                    <!-- Step 1 (White step background, black text) -->
+                    <li class="flex items-start bg-white p-5 rounded-xl border-2 border-black">
+                        <span class="flex-shrink-0 text-3xl font-bungee text-black mr-4">1.</span>
+                        <div>
+                            <p data-i18n-key="htb-step1-title" class="text-xl font-bold text-black">PREPARE THE FUEL (BNB)</p>
+                            <p data-i18n-key="htb-step1-desc" class="text-gray-700">Acquire BNB on a Tier-1 exchange (CEX) like Binance or KuCoin. Transfer your BNB to a self-custody wallet (MetaMask, Trust Wallet) on the BNB Smart Chain network.</p>
+                        </div>
+                    </li>
+                    <!-- Step 2 (White step background, black text) -->
+                    <li class="flex items-start bg-white p-5 rounded-xl border-2 border-black">
+                        <span class="flex-shrink-0 text-3xl font-bungee text-black mr-4">2.</span>
+                        <div>
+                            <p data-i18n-key="htb-step2-title" class="text-xl font-bold text-black">NAVIGATE TO THE DEX</p>
+                            <p data-i18n-key="htb-step2-desc" class="text-gray-700">Head to PancakeSwap, the command center for all BNB trading. Connect your prepared wallet.</p>
+                        </div>
+                    </li>
+                    <!-- Step 3 (White step background, black text, glowing border) -->
+                    <li class="flex items-start bg-accent p-5 rounded-xl border-2 border-white glow-border">
+                        <span class="flex-shrink-0 text-3xl font-bungee text-black mr-4">3.</span>
+                        <div>
+                            <p data-i18n-key="htb-step3-title" class="text-xl font-bold text-black">EXECUTE SWAP PROTOCOL</p>
+                            <p data-i18n-key="htb-step3-desc" class="text-black font-bold">Paste the Contract Address (CA) from the header into the receiver field. Swap your BNB for $SPRM. Set slippage to the minimum required for the transaction to execute.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        
+        <!-- 4. Community Section (Single Button) -->
+        <section id="community" class="py-16 md:py-20 text-center max-w-5xl mx-auto px-4 content-panel my-8 rounded-xl border-4 glow-border">
+            <h3 data-i18n-key="community-title" class="text-4xl sm:text-5xl font-bungee text-white mb-6">
+                JOIN THE RUSH
+            </h3>
+            <p data-i18n-key="community-tagline" class="text-lg max-w-3xl mx-auto mb-10 text-gray-400">
+                The journey is just beginning. Connect with other space cadets and future millionaires.
+            </p>
+            <div class="flex justify-center">
+                <!-- Single Community Button -->
+                <a href="#" data-i18n-key="community-button" 
+                   class="bg-accent text-black font-bungee py-3 px-8 rounded-xl text-xl shadow-xl transition duration-200 border-4 border-white glow-border hover:text-gray-900">
+                    SPERM ROCKET X COMMUNITY
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Dark background) -->
+    <footer class="bg-black text-white text-center py-6 mt-12 border-t-4 border-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <p data-i18n-key="footer-text" class="text-gray-400">&copy; 2025 Sperm Rocket. All rights reserved. This is a meme coin. Do your own research.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        const CONTRACT_ADDRESS = "0xXXXXXXXXXXXXXXXXXXXXXXX";
+        const DEFAULT_LANG = 'EN';
+        let currentLang = DEFAULT_LANG;
+
+        // --- I18n Translations Object (Updated) ---
+        const translations = {
+            'EN': {
+                // Header
+                'logo-title': 'SPERM ROCKET',
+                'nav-home': 'Home',
+                'nav-howtobuy': 'How to Buy',
+                'nav-community': 'Community',
+                'switch-to-text': 'Switch to',
+                
+                // Hero
+                'hero-title': 'ELON TWEETED. WE LISTENED.',
+                'hero-tagline': "Elon Musk posted the 💦🚀->🌙 emoji sequence, and the world is finally ready for the ultimate BNB memecoin. This is not a coincidence; it's destiny tokenized. Get in, Cadet.",
+                'buy-button': 'BUY $SPRM',
+
+                // Lore
+                'lore-title': "THE LORE: ELON'S PROPHECY",
+                'lore-p1': "The ancient prophecy, now confirmed by Elon Musk's divine tweet (💦🚀->🌙), declared that the fastest asset would lead humanity to the cosmic egg. Other tokens are slow. Sperm Rocket is pure speed. We've brought the movement to the BNB chain, fully decentralized and ready for lift-off. Our mission: The Moon, together.",
+                'lore-p2': "It's not just a token, it's a lifecycle event. Get in before we hatch. 🥚",
+                'lore-li1': 'Fully Decentralized and Community Driven',
+                'lore-li2': 'Zero Tax (0/0) for Maximum Velocity',
+                'lore-li3': 'Liquidity Locked Forever (It\'s serious business)',
+                
+                // How to Buy (HTB)
+                'htb-title': 'HOW TO ACHIEVE LIFT-OFF',
+                'htb-step1-title': 'PREPARE THE FUEL (BNB)',
+                'htb-step1-desc': 'Acquire BNB on a Tier-1 exchange (CEX) like Binance or KuCoin. Transfer your BNB to a self-custody wallet (MetaMask, Trust Wallet) on the BNB Smart Chain network.',
+                'htb-step2-title': 'NAVIGATE TO THE DEX',
+                'htb-step2-desc': 'Head to PancakeSwap, the command center for all BNB trading. Connect your prepared wallet.',
+                'htb-step3-title': 'EXECUTE SWAP PROTOCOL',
+                'htb-step3-desc': 'Paste the Contract Address (CA) from the header into the receiver field. Swap your BNB for $SPRM. Set slippage to the minimum required for the transaction to execute.',
+
+                // Community
+                'community-title': 'JOIN THE RUSH',
+                'community-tagline': 'The journey is just beginning. Connect with other space cadets and future millionaires.',
+                'community-button': 'SPERM ROCKET X COMMUNITY', // NEW
+
+                // Footer
+                'footer-text': '&copy; 2025 Sperm Rocket. All rights reserved. This is a meme coin. Do your own research.'
+            },
+            'ZH': {
+                // Header
+                'logo-title': '精子火箭',
+                'nav-home': '主页',
+                'nav-howtobuy': '如何购买',
+                'nav-community': '社区',
+                'switch-to-text': '切换到',
+
+                // Hero
+                'hero-title': '埃隆发推。我们行动。',
+                'hero-tagline': "埃隆·马斯克发布了 💦🚀->🌙 表情符号序列，世界终于为这枚终极 BNB 迷因币做好了准备。这不是巧合；这是被代币化的命运。加入我们吧，学员。",
+                'buy-button': '购买 $SPRM',
+
+                // Lore
+                'lore-title': "背景故事：埃隆的预言",
+                'lore-p1': "古老的预言，现已得到埃隆·马斯克神圣推文 (💦🚀->🌙) 的证实，宣布最快的资产将带领人类前往宇宙巨蛋。其他代币速度太慢。精子火箭是纯粹的速度。我们已将这场运动带到 BNB 链上，完全去中心化，准备发射。我们的使命：一起冲向月球。",
+                'lore-p2': "它不仅仅是一个代币，它是一个生命周期事件。在孵化前加入我们吧。🥚",
+                'lore-li1': '完全去中心化和社区驱动',
+                'lore-li2': '零税费（0/0）以实现最大速度',
+                'lore-li3': '流动性永久锁定（这是严肃的事情）',
+                
+                // How to Buy (HTB)
+                'htb-title': '如何实现起飞',
+                'htb-step1-title': '准备燃料（BNB）',
+                'htb-step1-desc': '在币安、KuCoin 等一级交易所（CEX）购买 BNB。将您的 BNB 转移到 BNB 智能链网络上的自托管钱包（MetaMask、Trust Wallet）。',
+                'htb-step2-title': '导航至 DEX',
+                'htb-step2-desc': '前往 PancakeSwap，这是所有 BNB 交易的指挥中心。连接您准备好的钱包。',
+                'htb-step3-title': '执行兑换协议',
+                'htb-step3-desc': '将头部的合约地址（CA）粘贴到接收方字段。将您的 BNB 兑换为 $SPRM。将滑点设置为执行交易所需的最低值。',
+
+                // Community
+                'community-title': '加入冲刺',
+                'community-tagline': '旅程才刚刚开始。与其他太空学员和未来的百万富翁联系。',
+                'community-button': '精子火箭 X 社区', // NEW
+
+                // Footer
+                'footer-text': '&copy; 2025 精子火箭。保留所有权利。这是一个迷因币。请自行研究。'
+            }
+        };
+
+        // --- Content Update Logic ---
+        const updateContent = (lang) => {
+            const currentTranslations = translations[lang];
+            
+            // 1. Update all elements with data-i18n-key
+            document.querySelectorAll('[data-i18n-key]').forEach(element => {
+                const key = element.getAttribute('data-i18n-key');
+                if (currentTranslations[key]) {
+                    // Special handling for HTML content (like the footer text with &copy;)
+                    if (key === 'footer-text') {
+                        element.innerHTML = currentTranslations[key];
+                    } else if (element.tagName === 'A' && key.includes('-link-label')) {
+                        // Update aria-label for accessibility/SEO, keeping emojis visible
+                        element.setAttribute('aria-label', currentTranslations[key]);
+                    } else {
+                        element.textContent = currentTranslations[key];
+                    }
+                }
+            });
+
+            // 2. Update language switcher UI elements
+            const display = document.getElementById('current-lang-display');
+            const buttonText = document.getElementById('next-lang-text');
+            const switchButtonTextElement = document.querySelector('#lang-switch-button [data-i18n-key="switch-to-text"]');
+            
+            display.textContent = lang;
+            buttonText.textContent = (lang === 'EN') ? '中文' : 'EN';
+            
+            // Update the 'Switch to' text itself (needs separate handling)
+            if (switchButtonTextElement) {
+                switchButtonTextElement.textContent = translations[DEFAULT_LANG]['switch-to-text'];
+            }
+        };
+
+        // --- CA Copy Functionality (Simplified) ---
+        const copyCA = () => {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = CONTRACT_ADDRESS;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                // Using document.execCommand('copy')
+                document.execCommand('copy');
+                // Removed all UI feedback elements as requested for shorter header
+            } catch (err) {
+                console.error('Copy command failed:', err);
+            } finally {
+                document.body.removeChild(tempInput);
+            }
+        };
+
+        // --- Language Switch Functionality ---
+        const toggleLanguage = () => {
+            const button = document.getElementById('lang-switch-button');
+            const newLang = (currentLang === 'EN') ? 'ZH' : 'EN';
+            
+            currentLang = newLang;
+            updateContent(currentLang);
+            
+            // Update button class for visual feedback
+            button.classList.toggle('bg-accent', currentLang === 'EN');
+            button.classList.toggle('bg-gray-700', currentLang === 'ZH'); 
+        };
+
+        // --- Initialization ---
+        window.onload = function() {
+            // Set the initial content based on DEFAULT_LANG
+            updateContent(DEFAULT_LANG);
+            
+            // Initialize the contract address display
+            document.getElementById('contract-address').textContent = CONTRACT_ADDRESS;
+        };
+    </script>
+</body>
+</html>
